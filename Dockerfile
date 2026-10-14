@@ -25,5 +25,5 @@ COPY . .
 # Expose Streamlit default port
 EXPOSE 8501
 
-# Run initial training if weights don't exist and launch web app
-CMD ["sh", "-c", "python -m src.train --epochs 10 && streamlit run app.py --server.port 8501 --server.address 0.0.0.0"]
+# Launch web application directly using pre-trained weights
+CMD ["streamlit", "run", "app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]

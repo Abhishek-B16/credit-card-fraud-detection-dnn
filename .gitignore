@@ -16,10 +16,9 @@ data/*.csv
 !data/sample_transactions.csv
 data/*.zip
 
-# Model checkpoints (keep structure, ignore large binaries if desired)
-models/*.pth
-models/*.pt
-models/*.h5
+# Model checkpoints (track lightweight pretrained weights)
+!models/best_dnn_model.pth
+!models/preprocessors.joblib
 !models/.gitkeep
 
 # IDEs
