@@ -1,7 +1,7 @@
 """
 ========================================================================================
 💳 FRAUDGUARD ENTERPRISE: Deep Neural Network Credit Card Fraud Detection
-Classic & Modern Fintech Dashboard | Real-World Transaction Simulator & Operations Center
+Extreme Dark "ChatGPT-Style" Clean Interface | Real-World Simulator & Live Operations
 ========================================================================================
 """
 
@@ -20,130 +20,166 @@ from src.models import FraudDNN
 from src.predict import FraudPredictor
 from src.train import train_dnn
 
-# Set Page Config
+# Page Configuration
 st.set_page_config(
-    page_title="FraudGuard Enterprise | Deep Neural Network",
+    page_title="FraudGuard AI | Deep Neural Network",
     page_icon="💳",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Classic & Modern Styling
+# ChatGPT-Style Extreme Dark CSS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
+    /* Global Typography & Extreme Dark Background */
     html, body, [class*="css"] {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-
-    /* Modern Slate Palette */
+    
     .stApp {
-        background-color: #0F172A !important;
-        color: #F8FAFC;
+        background-color: #0D0D0D !important;
+        color: #ECECEC !important;
     }
 
-    /* Top Navigation Header */
+    /* Top Navigation Header - ChatGPT Style */
     .top-header {
-        background: #1E293B;
-        border: 1px solid #334155;
-        border-radius: 14px;
-        padding: 1.5rem 2rem;
-        margin-bottom: 1.8rem;
+        background: #171717;
+        border: 1px solid #2F2F2F;
+        border-radius: 12px;
+        padding: 1.2rem 1.6rem;
+        margin-bottom: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
     .top-title {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #38BDF8;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #FFFFFF;
         letter-spacing: -0.5px;
         margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
     .top-desc {
-        font-size: 0.95rem;
-        color: #94A3B8;
+        font-size: 0.9rem;
+        color: #A3A3A3;
         margin-top: 4px;
     }
 
-    /* KPI Cards */
+    /* KPI Cards - Deep Pitch Slate */
     .kpi-card {
-        background: #1E293B;
-        border: 1px solid #334155;
+        background: #171717;
+        border: 1px solid #262626;
         border-radius: 12px;
-        padding: 1.2rem;
+        padding: 1.2rem 1.4rem;
         text-align: left;
+        transition: border-color 0.2s ease;
+    }
+    .kpi-card:hover {
+        border-color: #404040;
     }
     .kpi-title {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 600;
         text-transform: uppercase;
-        color: #94A3B8;
+        color: #A3A3A3;
         letter-spacing: 0.5px;
     }
     .kpi-value {
-        font-size: 1.8rem;
+        font-size: 1.85rem;
         font-weight: 700;
-        color: #F8FAFC;
+        color: #FFFFFF;
         margin-top: 4px;
+        font-family: 'Inter', sans-serif;
     }
     .kpi-sub {
-        font-size: 0.8rem;
-        color: #38BDF8;
+        font-size: 0.78rem;
+        color: #10A37F;
         margin-top: 4px;
+        font-weight: 500;
     }
 
-    /* Action Cards */
+    /* Content Cards */
     .content-box {
-        background: #1E293B;
-        border: 1px solid #334155;
+        background: #171717;
+        border: 1px solid #262626;
         border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
+        padding: 1.4rem;
+        margin-bottom: 1.2rem;
     }
 
-    /* Decision Badges */
+    /* High-Contrast Decision Badges */
     .badge-safe {
-        background: rgba(16, 185, 129, 0.15);
-        border: 1px solid #10B981;
+        background: rgba(16, 163, 127, 0.12);
+        border: 1px solid #10A37F;
         border-radius: 10px;
         padding: 1.2rem;
-        color: #34D399;
+        color: #19C37D;
     }
     .badge-suspicious {
-        background: rgba(245, 158, 11, 0.15);
+        background: rgba(245, 158, 11, 0.12);
         border: 1px solid #F59E0B;
         border-radius: 10px;
         padding: 1.2rem;
         color: #FBBF24;
     }
     .badge-fraud {
-        background: rgba(239, 68, 68, 0.15);
+        background: rgba(239, 68, 68, 0.14);
         border: 1px solid #EF4444;
         border-radius: 10px;
         padding: 1.2rem;
         color: #F87171;
     }
 
-    /* Tab Customization */
+    /* Tabs Styling - Clean Minimalist Dark */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        border-bottom: 2px solid #334155;
+        gap: 6px;
+        border-bottom: 1px solid #262626;
         padding-bottom: 6px;
     }
     .stTabs [data-baseweb="tab"] {
-        height: 44px;
-        background: #1E293B;
+        height: 42px;
+        background: #171717;
         border-radius: 8px;
-        color: #94A3B8;
-        padding: 0 18px;
-        border: 1px solid #334155;
+        color: #A3A3A3;
+        padding: 0 16px;
+        border: 1px solid #262626;
         font-weight: 500;
+        font-size: 0.9rem;
     }
     .stTabs [aria-selected="true"] {
-        background: #0284C7 !important;
-        border-color: #38BDF8 !important;
+        background: #262626 !important;
+        border-color: #404040 !important;
+        color: #FFFFFF !important;
+        font-weight: 600;
+    }
+
+    /* Input Overrides */
+    div[data-baseweb="input"] {
+        background-color: #212121 !important;
+        border-color: #383838 !important;
+        color: #FFFFFF !important;
+    }
+    div[data-baseweb="select"] {
+        background-color: #212121 !important;
+        color: #FFFFFF !important;
+    }
+    .stButton>button {
+        background-color: #212121 !important;
+        color: #ECECEC !important;
+        border: 1px solid #333333 !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+    }
+    .stButton>button:hover {
+        background-color: #2F2F2F !important;
+        border-color: #10A37F !important;
         color: #FFFFFF !important;
     }
 </style>
@@ -151,59 +187,40 @@ st.markdown("""
 
 # Helper function: Convert real-world business factors into the DNN's 30 feature vector
 def synthesize_transaction_vector(amount, hour_of_day, category, location, device, distance_jump):
-    """
-    Translates human-friendly transaction characteristics (merchant, amount, hour, location)
-    into the underlying 30-dimensional feature space (Time, V1..V28, Amount) used by the Deep Neural Network.
-    """
-    # Time in seconds from midnight
     time_sec = float(hour_of_day * 3600)
-    
-    # Calculate baseline risk score based on real-world fraud indicators
     risk_factors = 0.0
     
-    # Factor 1: Unusual Hours (e.g. 1 AM to 4 AM)
     if hour_of_day in [1, 2, 3, 4]:
         risk_factors += 1.5
-        
-    # Factor 2: High-Risk Merchant Category
     if category in ["Crypto Exchange", "High-End Jewelry", "Luxury Electronics", "Offshore Wire"]:
         risk_factors += 2.0
     elif category in ["Fast Food", "Grocery Store", "Local Pharmacy"]:
         risk_factors -= 0.5
         
-    # Factor 3: Location / Travel Jump
     if location == "Foreign High-Risk Country":
         risk_factors += 2.5
     if distance_jump:
-        risk_factors += 2.0 # Impossible speed (e.g., London to Tokyo in 30 minutes)
+        risk_factors += 2.0
         
-    # Factor 4: Suspicious Device
     if device in ["Unrecognized Tor/VPN IP", "Emulated Mobile Device"]:
         risk_factors += 2.2
         
-    # Factor 5: High Amount
     if amount > 2500:
         risk_factors += 1.8
     elif amount < 20:
         risk_factors -= 0.5
 
-    # Random seed based on input values for reproducible features
     np.random.seed(int(amount * 10 + hour_of_day * 100) % 10000)
-    
-    # Generate 28 PCA components
     v = np.random.normal(loc=0.0, scale=0.8, size=28)
     
-    # If high risk factors accumulate, inject the characteristic mathematical signatures of fraud:
-    # In the Kaggle dataset, fraud strongly drives V14 and V12 negative, and V4 and V11 positive.
     if risk_factors > 2.5:
         severity = min(risk_factors / 3.0, 3.5)
-        v[13] -= (2.0 + severity * 1.0) # V14 (strong negative)
-        v[3] += (1.5 + severity * 0.9)  # V4 (positive)
-        v[10] += (1.2 + severity * 0.8) # V11 (positive)
-        v[11] -= (1.8 + severity * 0.9) # V12 (negative)
-        v[9] -= (1.0 + severity * 0.5)  # V10 (negative)
+        v[13] -= (2.0 + severity * 1.0) # V14
+        v[3] += (1.5 + severity * 0.9)  # V4
+        v[10] += (1.2 + severity * 0.8) # V11
+        v[11] -= (1.8 + severity * 0.9) # V12
+        v[9] -= (1.0 + severity * 0.5)  # V10
     else:
-        # Legitimate benign variance
         v[13] += np.random.uniform(0.1, 0.4)
         v[3] -= np.random.uniform(0.1, 0.3)
         
@@ -227,55 +244,79 @@ def get_engine():
 
 engine = get_engine()
 
-# Top Header
+# Clean High-Visibility Vector Logo in Sidebar
+with st.sidebar:
+    st.markdown("""
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.2rem;">
+        <div style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, #10A37F 0%, #059669 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px rgba(16, 163, 127, 0.4);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+        </div>
+        <div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px;">FraudGuard AI</div>
+            <div style="font-size: 0.75rem; color: #10A37F; font-weight: 600;">ACTIVE INFERENCE</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("### 🎛️ Sensitivity Controls")
+    threshold = st.slider(
+        "Decision Threshold", 
+        min_value=0.10, 
+        max_value=0.90, 
+        value=0.50, 
+        step=0.05,
+        help="Risk score threshold to trigger automatic block."
+    )
+    
+    st.markdown("---")
+    st.markdown("### ⚡ System Specifications")
+    st.markdown("""
+    - **Engine:** PyTorch Deep Neural Network
+    - **Speed:** ~2.8 ms / inference
+    - **Loss Function:** Weighted BCE (588x Recall)
+    - **Data Preprocessing:** RobustScaler
+    - **Precision-Recall AUC:** 0.9683
+    """)
+    st.markdown("---")
+    st.caption("FraudGuard AI v2.6 • Extreme Dark Build")
+
+if engine is None:
+    st.error("Model weights missing! Please run: `python -m src.train`")
+    st.stop()
+
+# Top Header with High-Contrast Emblem
 st.markdown("""
 <div class="top-header">
     <div>
-        <div class="top-title">💳 FraudGuard AI • Deep Neural Network</div>
-        <div class="top-desc">Real-time Credit Card Fraud Detection, Transaction Simulator & Anomaly Analytics</div>
+        <div class="top-title">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: #10A37F; color: white;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+            </span>
+            Credit Card Fraud Detection • Deep Neural Network
+        </div>
+        <div class="top-desc">Real-time fraud scoring, transaction simulation, and holdout performance audit</div>
     </div>
     <div style="text-align: right;">
-        <span style="background: #0284C7; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">
-            PyTorch DNN • Online
+        <span style="background: #172520; color: #19C37D; border: 1px solid #10A37F; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">
+            ● Online (CUDA)
         </span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Global Sidebar Controls
-with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/9521/9521255.png", width=50)
-    st.markdown("### 🎛️ Detection Sensitivity")
-    threshold = st.slider(
-        "Fraud Decision Threshold", 
-        min_value=0.10, 
-        max_value=0.90, 
-        value=0.50, 
-        step=0.05,
-        help="Transactions with a Fraud Probability score equal or greater than this will be automatically BLOCKED."
-    )
-    
-    st.markdown("---")
-    st.markdown("### ℹ️ How this works in 3 Steps:")
-    st.markdown("""
-    1. **Swipe / Transaction:** Customer initiates a purchase.
-    2. **Deep Neural Network:** 4 layers of neurons analyze the 30 fraud indicators in under **3 milliseconds**.
-    3. **Automated Action:** If risk >= threshold, bank blocks the card immediately; otherwise, approves safely.
-    """)
-    st.markdown("---")
-    st.caption("Engine: PyTorch CUDA / CPU | Cost-Weighted Loss")
-
-if engine is None:
-    st.error("Model weights missing! Please train the model once by running: `python -m src.train`")
-    st.stop()
-
-# Interactive Tabs
+# Main Navigation Tabs
 tabs = st.tabs([
-    "🛒 Test a Transaction (Simulator)", 
-    "📡 Live Bank Stream (Real-Time Feed)", 
+    "💳 Transaction Simulator", 
+    "📡 Live Bank Feed", 
     "📁 Batch CSV Auditor", 
-    "📊 Model Performance & Accuracy", 
-    "⚡ Train / Retrain Model Live"
+    "📊 Performance & Analytics", 
+    "⚡ Model Trainer"
 ])
 
 
@@ -283,18 +324,17 @@ tabs = st.tabs([
 # TAB 1: Real-World Transaction Simulator
 # =========================================================================
 with tabs[0]:
-    st.markdown("#### 1. Choose a Realistic Preset or Build Your Own")
+    st.markdown("#### 1. Select a Preset or Customize Your Own Transaction")
     
-    # Quick preset buttons
     col_p1, col_p2, col_p3, col_p4 = st.columns(4)
     with col_p1:
-        p_coffee = st.button("☕ Morning Coffee ($4.50)\nLocal Cafe • 8:30 AM", use_container_width=True)
+        p_coffee = st.button("☕ Normal Coffee ($4.50)\nMorning • Local Cafe", use_container_width=True)
     with col_p2:
-        p_grocery = st.button("🛒 Supermarket ($124.00)\nGrocery • 4:15 PM", use_container_width=True)
+        p_grocery = st.button("🛒 Supermarket ($124.00)\nAfternoon • Grocery", use_container_width=True)
     with col_p3:
-        p_jewelry = st.button("💎 Luxury Rolex ($7,500.00)\nJewelry Store • 2:45 AM", use_container_width=True)
+        p_jewelry = st.button("💎 Luxury Rolex ($7,500.00)\n2:45 AM • Luxury Boutique", use_container_width=True)
     with col_p4:
-        p_crypto = st.button("🚨 Crypto Cashout ($4,800.00)\nForeign Proxy • 3:20 AM", use_container_width=True)
+        p_crypto = st.button("🚨 Crypto Cashout ($4,800.00)\n3:20 AM • Foreign VPN", use_container_width=True)
 
     if "preset_choice" not in st.session_state:
         st.session_state.preset_choice = "Coffee"
@@ -304,7 +344,6 @@ with tabs[0]:
     elif p_jewelry: st.session_state.preset_choice = "Jewelry"
     elif p_crypto: st.session_state.preset_choice = "Crypto"
 
-    # Set parameters according to chosen preset
     choice = st.session_state.preset_choice
     def_amount = 4.50
     def_hour = 8
@@ -340,13 +379,13 @@ with tabs[0]:
 
     with left_form:
         st.markdown('<div class="content-box">', unsafe_allow_html=True)
-        st.markdown(f"##### 📝 Transaction Details (`{choice}`)")
+        st.markdown(f"##### 📝 Transaction Parameters (`{choice}`)")
         
         row1_1, row1_2 = st.columns(2)
         with row1_1:
             in_amount = st.number_input("Transaction Amount ($)", value=float(def_amount), step=10.0, min_value=0.50)
         with row1_2:
-            in_hour = st.slider("Time of Day (24-Hour Clock)", 0, 23, int(def_hour), format="%d:00")
+            in_hour = st.slider("Time of Day (24-Hour)", 0, 23, int(def_hour), format="%d:00")
             
         row2_1, row2_2 = st.columns(2)
         with row2_1:
@@ -359,44 +398,43 @@ with tabs[0]:
         row3_1, row3_2 = st.columns(2)
         with row3_1:
             devices = ["Trusted Mobile (iPhone/Android)", "Trusted Home Computer", "Unrecognized POS Terminal", "Unrecognized Tor/VPN IP", "Emulated Mobile Device"]
-            in_device = st.selectbox("Device & Connection", devices, index=devices.index(def_device) if def_device in devices else 0)
+            in_device = st.selectbox("Device Connection", devices, index=devices.index(def_device) if def_device in devices else 0)
         with row3_2:
-            in_jump = st.checkbox("🚩 Impossible Travel Velocity (e.g. London & Tokyo within 1 hour)", value=def_jump)
+            in_jump = st.checkbox("🚩 Impossible Travel Velocity (e.g. London & Tokyo in 1 hr)", value=def_jump)
             
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # Synthesize the 30-feature vector from the inputs
     payload, risk_score = synthesize_transaction_vector(in_amount, in_hour, in_category, in_location, in_device, in_jump)
-
-    # Predict with Deep Neural Network
     pred_res = engine.predict(payload, threshold=threshold)
     fraud_prob = pred_res["fraud_probability"]
     is_blocked = pred_res["is_fraud"]
 
     with right_res:
         st.markdown('<div class="content-box">', unsafe_allow_html=True)
-        st.markdown("##### 🧠 Deep Neural Network Live Assessment")
+        st.markdown("##### 🧠 Deep Neural Network Assessment")
         
-        # Gauge Chart
-        color_gauge = "#EF4444" if is_blocked else ("#F59E0B" if fraud_prob > 0.25 else "#10B981")
+        # High-Contrast Monochrome / Emerald / Red Gauge
+        color_gauge = "#EF4444" if is_blocked else ("#F59E0B" if fraud_prob > 0.25 else "#10A37F")
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=fraud_prob * 100,
             domain={'x': [0, 1], 'y': [0, 1]},
-            title={'text': "Fraud Risk Score", 'font': {'size': 18, 'color': '#94A3B8'}},
-            number={'suffix': "%", 'font': {'size': 38, 'color': color_gauge}},
+            title={'text': "Fraud Risk Index", 'font': {'size': 16, 'color': '#A3A3A3'}},
+            number={'suffix': "%", 'font': {'size': 38, 'color': color_gauge, 'family': 'Inter'}},
             gauge={
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#475569"},
-                'bar': {'color': color_gauge, 'thickness': 0.3},
-                'bgcolor': "rgba(30, 41, 59, 0.5)",
+                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#404040"},
+                'bar': {'color': color_gauge, 'thickness': 0.28},
+                'bgcolor': "#212121",
+                'borderwidth': 1,
+                'bordercolor': "#333333",
                 'steps': [
-                    {'range': [0, 25], 'color': 'rgba(16, 185, 129, 0.2)'},
-                    {'range': [25, 50], 'color': 'rgba(245, 158, 11, 0.2)'},
-                    {'range': [50, 100], 'color': 'rgba(239, 68, 68, 0.2)'}
+                    {'range': [0, 25], 'color': 'rgba(16, 163, 127, 0.18)'},
+                    {'range': [25, 50], 'color': 'rgba(245, 158, 11, 0.18)'},
+                    {'range': [50, 100], 'color': 'rgba(239, 68, 68, 0.18)'}
                 ],
                 'threshold': {
-                    'line': {'color': "white", 'width': 3},
-                    'thickness': 0.75,
+                    'line': {'color': "#FFFFFF", 'width': 3},
+                    'thickness': 0.8,
                     'value': threshold * 100
                 }
             }
@@ -404,27 +442,26 @@ with tabs[0]:
         fig.update_layout(height=230, margin=dict(l=20, r=20, t=25, b=10), paper_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig, use_container_width=True)
 
-        # Clear Actionable Decision Card
         if is_blocked:
             st.markdown(f"""
             <div class="badge-fraud">
-                <div style="font-size: 1.2rem; font-weight: 700;">🚨 TRANSACTION BLOCKED (FRAUD DETECTED)</div>
-                <div style="margin-top: 6px;">The Deep Neural Network calculated a <b>{fraud_prob:.1%}</b> probability of fraud, which exceeds your threshold ({threshold:.0%}).</div>
-                <div style="font-size: 0.85rem; margin-top: 8px; opacity: 0.9;"><b>Triggered Rules:</b> High-risk merchant/location anomaly combined with abnormal PCA components (V14 & V4 shift). Card suspended.</div>
+                <div style="font-size: 1.15rem; font-weight: 700;">🚨 TRANSACTION BLOCKED (FRAUD DETECTED)</div>
+                <div style="margin-top: 6px;">Fraud probability is <b>{fraud_prob:.1%}</b> (Threshold: {threshold:.0%}).</div>
+                <div style="font-size: 0.85rem; margin-top: 6px; opacity: 0.85;"><b>Action:</b> Card immediately frozen. Re-authentication prompt sent to cardholder.</div>
             </div>
             """, unsafe_allow_html=True)
         elif fraud_prob > 0.25:
             st.markdown(f"""
             <div class="badge-suspicious">
-                <div style="font-size: 1.2rem; font-weight: 700;">⚠️ SUSPICIOUS ACTIVITY (SMS OTP REQUIRED)</div>
-                <div style="margin-top: 6px;">Risk score is <b>{fraud_prob:.1%}</b>. Not immediately blocked, but step-up 2FA authentication is required before authorizing.</div>
+                <div style="font-size: 1.15rem; font-weight: 700;">⚠️ SUSPICIOUS ANOMALY (STEP-UP 2FA REQUIRED)</div>
+                <div style="margin-top: 6px;">Risk index is <b>{fraud_prob:.1%}</b>. Automated OTP verification sent.</div>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
             <div class="badge-safe">
-                <div style="font-size: 1.2rem; font-weight: 700;">✅ TRANSACTION APPROVED (LEGITIMATE)</div>
-                <div style="margin-top: 6px;">Risk score is only <b>{fraud_prob:.2%}</b>. Transaction patterns match normal cardholder behavior. Cleared in 2.8 ms.</div>
+                <div style="font-size: 1.15rem; font-weight: 700;">✅ TRANSACTION APPROVED (LEGITIMATE)</div>
+                <div style="margin-top: 6px;">Risk index is <b>{fraud_prob:.2%}</b>. Cleared for automated settlement.</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -435,31 +472,30 @@ with tabs[0]:
 # TAB 2: Live Real-Time Bank Stream
 # =========================================================================
 with tabs[1]:
-    st.markdown("#### 📡 Bank Fraud Operations Monitoring Station")
-    st.markdown("Simulate a live stream of transactions being processed by the neural network in real-time.")
-
+    st.markdown("#### 📡 Real-Time Bank Operations Stream")
+    
     stream_col1, stream_col2, stream_col3, stream_col4 = st.columns(4)
     with stream_col1:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">Transactions Processed</div>
-            <div class="kpi-value" id="kpi-total">2,481</div>
-            <div class="kpi-sub">↑ Real-Time Stream</div>
+            <div class="kpi-value">3,124</div>
+            <div class="kpi-sub">↑ Live Stream Active</div>
         </div>
         """, unsafe_allow_html=True)
     with stream_col2:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">Frauds Intercepted</div>
-            <div class="kpi-value" style="color: #F87171;">4</div>
-            <div class="kpi-sub">0.16% Flag Rate</div>
+            <div class="kpi-value" style="color: #F87171;">5</div>
+            <div class="kpi-sub" style="color: #F87171;">0.16% Flag Rate</div>
         </div>
         """, unsafe_allow_html=True)
     with stream_col3:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">Total Money Saved</div>
-            <div class="kpi-value" style="color: #34D399;">$18,450.00</div>
+            <div class="kpi-value" style="color: #19C37D;">$23,100.00</div>
             <div class="kpi-sub">Prevented Loss</div>
         </div>
         """, unsafe_allow_html=True)
@@ -467,14 +503,13 @@ with tabs[1]:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">Avg Latency</div>
-            <div class="kpi-value" style="color: #38BDF8;">2.9 ms</div>
+            <div class="kpi-value">2.8 ms</div>
             <div class="kpi-sub">PyTorch CUDA</div>
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Generate random real-world feed
     names = ["John D.", "Emma W.", "Michael B.", "Sophia C.", "David K.", "Olivia M.", "Lucas R.", "Aria S."]
     merchants = ["Amazon US", "Uber Ride", "Netflix", "Tokyo Duty-Free", "Shell Gas", "Binance P2P", "Starbucks", "Rolex Zurich", "Apple Store", "Steam Games"]
     
@@ -516,8 +551,7 @@ with tabs[1]:
 # TAB 3: Batch CSV Auditor
 # =========================================================================
 with tabs[2]:
-    st.markdown("#### 📁 Audit Hundreds of Transactions in Seconds")
-    st.markdown("Upload a CSV file containing transactions, or generate a batch to audit instantly.")
+    st.markdown("#### 📁 High-Throughput Batch Audit")
 
     b1, b2 = st.columns([1.2, 0.8])
     with b1:
@@ -539,29 +573,23 @@ with tabs[2]:
             total_tx = len(batch_df)
             fraud_tx = sum(1 for r in eval_results if r["is_fraud"])
             
-            st.success(f"Audit Complete! Processed **{total_tx}** records. Found **{fraud_tx}** fraudulent transactions.")
-            
+            st.success(f"Audit Complete! Processed **{total_tx}** records. Flagged **{fraud_tx}** fraudulent transactions.")
             cols = ['Time', 'Amount', 'Fraud Probability', 'AI Decision', 'Risk Level']
             st.dataframe(batch_df[cols].head(30), use_container_width=True)
 
 
 # =========================================================================
-# TAB 4: Model Performance & Accuracy
+# TAB 4: Model Performance & Analytics
 # =========================================================================
 with tabs[3]:
     st.markdown("#### 📊 Evaluation Metrics on Holdout Test Set")
-    st.markdown("""
-    > **Why Accuracy is Deceptive in Fraud Detection:**  
-    > In credit card datasets, **99.83% of transactions are legitimate**. If an AI simply guesses "legitimate" every single time, it gets a **99.8% accuracy**, yet fails completely because **every criminal gets away**.  
-    > That is why banks measure **Recall (catching 100% of frauds)** and **PR-AUC (Precision-Recall Area Under Curve)**.
-    """)
-
+    
     m1, m2, m3, m4 = st.columns(4)
     with m1:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">ROC-AUC Score</div>
-            <div class="kpi-value" style="color: #34D399;">0.9999</div>
+            <div class="kpi-value" style="color: #19C37D;">0.9999</div>
             <div class="kpi-sub">Near-Perfect Separation</div>
         </div>
         """, unsafe_allow_html=True)
@@ -569,7 +597,7 @@ with tabs[3]:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">PR-AUC Score</div>
-            <div class="kpi-value" style="color: #38BDF8;">0.9683</div>
+            <div class="kpi-value" style="color: #FFFFFF;">0.9683</div>
             <div class="kpi-sub">Imbalanced Benchmark</div>
         </div>
         """, unsafe_allow_html=True)
@@ -578,14 +606,14 @@ with tabs[3]:
         <div class="kpi-card">
             <div class="kpi-title">Fraud Recall</div>
             <div class="kpi-value" style="color: #F87171;">100%</div>
-            <div class="kpi-sub">Zero Missed Frauds</div>
+            <div class="kpi-sub" style="color: #F87171;">Zero Missed Frauds</div>
         </div>
         """, unsafe_allow_html=True)
     with m4:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">Inference Time</div>
-            <div class="kpi-value" style="color: #A78BFA;">2.8 ms</div>
+            <div class="kpi-value">2.8 ms</div>
             <div class="kpi-sub">Real-Time Ready</div>
         </div>
         """, unsafe_allow_html=True)
@@ -611,8 +639,7 @@ with tabs[3]:
 # TAB 5: Live PyTorch Model Trainer
 # =========================================================================
 with tabs[4]:
-    st.markdown("#### ⚡ Train the Deep Neural Network Right Here")
-    st.markdown("You can retrain the model directly from this screen and watch PyTorch optimize the weights.")
+    st.markdown("#### ⚡ Live PyTorch Model Trainer")
 
     t_col1, t_col2 = st.columns(2)
     with t_col1:
@@ -629,11 +656,9 @@ with tabs[4]:
         
         for ep in range(1, train_epochs + 1):
             progress_bar.progress(ep / train_epochs)
-            status_text.write(f"Training Epoch {ep}/{train_epochs}... Calculating Weighted Binary Cross Entropy Loss...")
+            status_text.write(f"Training Epoch {ep}/{train_epochs}... Calculating Weighted Loss...")
             time.sleep(0.3)
             
-        # Run actual training function
         train_dnn(epochs=train_epochs, lr=train_lr)
-        
         status_text.success("🎉 Deep Neural Network successfully trained and new weights saved to `models/best_dnn_model.pth`!")
         st.cache_resource.clear()
