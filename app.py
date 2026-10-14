@@ -1,7 +1,7 @@
 """
 ========================================================================================
-💳 FRAUDGUARD ENTERPRISE: Deep Neural Network Credit Card Fraud Detection
-Extreme Dark "ChatGPT-Style" Clean Interface | Real-World Simulator & Live Operations
+💳 FRAUDGUARD: Deep Neural Network Credit Card Fraud Detection
+Pure Black #000000 Minimalist Architecture | Real-World Simulator & Operations Center
 ========================================================================================
 """
 
@@ -20,40 +20,38 @@ from src.models import FraudDNN
 from src.predict import FraudPredictor
 from src.train import train_dnn
 
-# Page Configuration
+# Page Setup
 st.set_page_config(
-    page_title="FraudGuard AI | Deep Neural Network",
+    page_title="FraudGuard | Deep Neural Network",
     page_icon="💳",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ChatGPT-Style Extreme Dark CSS
+# Seamless Pure Black Styling (No harsh boundaries)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* Global Typography & Extreme Dark Background */
     html, body, [class*="css"] {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
+    /* True Pure Black #000000 Background */
     .stApp {
-        background-color: #0D0D0D !important;
-        color: #ECECEC !important;
+        background-color: #000000 !important;
+        color: #EDEDED !important;
     }
 
-    /* Top Navigation Header - ChatGPT Style */
+    /* Seamless Header - No Harsh Borders */
     .top-header {
-        background: #171717;
-        border: 1px solid #2F2F2F;
+        background: #0A0A0A;
         border-radius: 12px;
-        padding: 1.2rem 1.6rem;
+        padding: 1.3rem 1.6rem;
         margin-bottom: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
     .top-title {
         font-size: 1.6rem;
@@ -67,27 +65,22 @@ st.markdown("""
     }
     .top-desc {
         font-size: 0.9rem;
-        color: #A3A3A3;
+        color: #8E8E93;
         margin-top: 4px;
     }
 
-    /* KPI Cards - Deep Pitch Slate */
+    /* Seamless KPI Surface */
     .kpi-card {
-        background: #171717;
-        border: 1px solid #262626;
+        background: #0D0D0D;
         border-radius: 12px;
         padding: 1.2rem 1.4rem;
         text-align: left;
-        transition: border-color 0.2s ease;
-    }
-    .kpi-card:hover {
-        border-color: #404040;
     }
     .kpi-title {
         font-size: 0.78rem;
         font-weight: 600;
         text-transform: uppercase;
-        color: #A3A3A3;
+        color: #8E8E93;
         letter-spacing: 0.5px;
     }
     .kpi-value {
@@ -104,82 +97,80 @@ st.markdown("""
         font-weight: 500;
     }
 
-    /* Content Cards */
+    /* Seamless Content Box - Clean Tone, No Border Lines */
     .content-box {
-        background: #171717;
-        border: 1px solid #262626;
+        background: #0D0D0D;
         border-radius: 12px;
         padding: 1.4rem;
         margin-bottom: 1.2rem;
     }
 
-    /* High-Contrast Decision Badges */
+    /* Status Notifications - Soft Glow Background, No Harsh Outline */
     .badge-safe {
         background: rgba(16, 163, 127, 0.12);
-        border: 1px solid #10A37F;
         border-radius: 10px;
         padding: 1.2rem;
-        color: #19C37D;
+        color: #22C55E;
     }
     .badge-suspicious {
         background: rgba(245, 158, 11, 0.12);
-        border: 1px solid #F59E0B;
         border-radius: 10px;
         padding: 1.2rem;
         color: #FBBF24;
     }
     .badge-fraud {
         background: rgba(239, 68, 68, 0.14);
-        border: 1px solid #EF4444;
         border-radius: 10px;
         padding: 1.2rem;
         color: #F87171;
     }
 
-    /* Tabs Styling - Clean Minimalist Dark */
+    /* Minimalist Dark Tabs */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 6px;
-        border-bottom: 1px solid #262626;
+        gap: 8px;
+        border-bottom: 1px solid #1C1C1E;
         padding-bottom: 6px;
     }
     .stTabs [data-baseweb="tab"] {
-        height: 42px;
-        background: #171717;
+        height: 40px;
+        background: #0D0D0D;
         border-radius: 8px;
-        color: #A3A3A3;
+        color: #8E8E93;
         padding: 0 16px;
-        border: 1px solid #262626;
+        border: none;
         font-weight: 500;
         font-size: 0.9rem;
     }
     .stTabs [aria-selected="true"] {
-        background: #262626 !important;
-        border-color: #404040 !important;
+        background: #1C1C1E !important;
         color: #FFFFFF !important;
         font-weight: 600;
     }
 
-    /* Input Overrides */
+    /* Modern Dark Inputs */
     div[data-baseweb="input"] {
-        background-color: #212121 !important;
-        border-color: #383838 !important;
+        background-color: #161616 !important;
+        border: 1px solid #242424 !important;
         color: #FFFFFF !important;
     }
     div[data-baseweb="select"] {
-        background-color: #212121 !important;
+        background-color: #161616 !important;
         color: #FFFFFF !important;
     }
+    
+    /* Sleek Modern Buttons - Minimalist Graphite Style */
     .stButton>button {
-        background-color: #212121 !important;
-        color: #ECECEC !important;
-        border: 1px solid #333333 !important;
+        background-color: #161616 !important;
+        color: #EDEDED !important;
+        border: 1px solid #242424 !important;
         border-radius: 8px !important;
         font-weight: 500 !important;
+        padding: 0.5rem 1rem !important;
         transition: all 0.2s ease !important;
     }
     .stButton>button:hover {
-        background-color: #2F2F2F !important;
-        border-color: #10A37F !important;
+        background-color: #222222 !important;
+        border-color: #383838 !important;
         color: #FFFFFF !important;
     }
 </style>
@@ -244,24 +235,24 @@ def get_engine():
 
 engine = get_engine()
 
-# Clean High-Visibility Vector Logo in Sidebar
+# Sidebar
 with st.sidebar:
     st.markdown("""
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.2rem;">
-        <div style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, #10A37F 0%, #059669 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px rgba(16, 163, 127, 0.4);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: #10A37F; display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="5" width="20" height="14" rx="2"></rect>
                 <line x1="2" y1="10" x2="22" y2="10"></line>
             </svg>
         </div>
         <div>
-            <div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px;">FraudGuard AI</div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px;">FraudGuard</div>
             <div style="font-size: 0.75rem; color: #10A37F; font-weight: 600;">ACTIVE INFERENCE</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("### 🎛️ Sensitivity Controls")
+    st.markdown("### Sensitivity Controls")
     threshold = st.slider(
         "Decision Threshold", 
         min_value=0.10, 
@@ -272,7 +263,7 @@ with st.sidebar:
     )
     
     st.markdown("---")
-    st.markdown("### ⚡ System Specifications")
+    st.markdown("### System Specifications")
     st.markdown("""
     - **Engine:** PyTorch Deep Neural Network
     - **Speed:** ~2.8 ms / inference
@@ -281,19 +272,19 @@ with st.sidebar:
     - **Precision-Recall AUC:** 0.9683
     """)
     st.markdown("---")
-    st.caption("FraudGuard AI v2.6 • Extreme Dark Build")
+
 
 if engine is None:
     st.error("Model weights missing! Please run: `python -m src.train`")
     st.stop()
 
-# Top Header with High-Contrast Emblem
+# Top Header
 st.markdown("""
 <div class="top-header">
     <div>
         <div class="top-title">
-            <span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: #10A37F; color: white;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: #10A37F; color: white;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="5" width="20" height="14" rx="2"></rect>
                     <line x1="2" y1="10" x2="22" y2="10"></line>
                 </svg>
@@ -303,7 +294,7 @@ st.markdown("""
         <div class="top-desc">Real-time fraud scoring, transaction simulation, and holdout performance audit</div>
     </div>
     <div style="text-align: right;">
-        <span style="background: #172520; color: #19C37D; border: 1px solid #10A37F; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">
+        <span style="background: #12231C; color: #22C55E; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.82rem;">
             ● Online (CUDA)
         </span>
     </div>
@@ -413,24 +404,23 @@ with tabs[0]:
         st.markdown('<div class="content-box">', unsafe_allow_html=True)
         st.markdown("##### 🧠 Deep Neural Network Assessment")
         
-        # High-Contrast Monochrome / Emerald / Red Gauge
+        # Pure Black Gauge Surface
         color_gauge = "#EF4444" if is_blocked else ("#F59E0B" if fraud_prob > 0.25 else "#10A37F")
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=fraud_prob * 100,
             domain={'x': [0, 1], 'y': [0, 1]},
-            title={'text': "Fraud Risk Index", 'font': {'size': 16, 'color': '#A3A3A3'}},
+            title={'text': "Fraud Risk Index", 'font': {'size': 16, 'color': '#8E8E93'}},
             number={'suffix': "%", 'font': {'size': 38, 'color': color_gauge, 'family': 'Inter'}},
             gauge={
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#404040"},
+                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#333333"},
                 'bar': {'color': color_gauge, 'thickness': 0.28},
-                'bgcolor': "#212121",
-                'borderwidth': 1,
-                'bordercolor': "#333333",
+                'bgcolor': "#161616",
+                'borderwidth': 0,
                 'steps': [
-                    {'range': [0, 25], 'color': 'rgba(16, 163, 127, 0.18)'},
-                    {'range': [25, 50], 'color': 'rgba(245, 158, 11, 0.18)'},
-                    {'range': [50, 100], 'color': 'rgba(239, 68, 68, 0.18)'}
+                    {'range': [0, 25], 'color': 'rgba(16, 163, 127, 0.15)'},
+                    {'range': [25, 50], 'color': 'rgba(245, 158, 11, 0.15)'},
+                    {'range': [50, 100], 'color': 'rgba(239, 68, 68, 0.15)'}
                 ],
                 'threshold': {
                     'line': {'color': "#FFFFFF", 'width': 3},
@@ -495,7 +485,7 @@ with tabs[1]:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">Total Money Saved</div>
-            <div class="kpi-value" style="color: #19C37D;">$23,100.00</div>
+            <div class="kpi-value" style="color: #22C55E;">$23,100.00</div>
             <div class="kpi-sub">Prevented Loss</div>
         </div>
         """, unsafe_allow_html=True)
@@ -589,7 +579,7 @@ with tabs[3]:
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-title">ROC-AUC Score</div>
-            <div class="kpi-value" style="color: #19C37D;">0.9999</div>
+            <div class="kpi-value" style="color: #22C55E;">0.9999</div>
             <div class="kpi-sub">Near-Perfect Separation</div>
         </div>
         """, unsafe_allow_html=True)
