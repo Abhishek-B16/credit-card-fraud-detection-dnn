@@ -543,13 +543,19 @@ with tabs[1]:
 with tabs[2]:
     st.markdown("#### 📁 High-Throughput Batch Audit")
 
-    b1, b2 = st.columns([1.2, 0.8])
+    b1, b2 = st.columns([1.1, 0.9])
     with b1:
         up_file = st.file_uploader("Upload CSV File (Time, V1..V28, Amount)", type=["csv"])
     with b2:
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("⚡ Generate & Audit 50 Sample Transactions", use_container_width=True):
-            up_file = "data/sample_transactions.csv"
+        c_btn1, c_btn2 = st.columns(2)
+        with c_btn1:
+            if st.button("⚡ Audit Sample 50", use_container_width=True):
+                up_file = "data/sample_transactions.csv"
+        with c_btn2:
+            if os.path.exists("data/sample_transactions.csv"):
+                with open("data/sample_transactions.csv", "rb") as f:
+                    st.download_button("📥 Download CSV", f, file_name="audit_sample_transactions.csv", mime="text/csv", use_container_width=True)
 
     if up_file:
         batch_df = pd.read_csv(up_file)
