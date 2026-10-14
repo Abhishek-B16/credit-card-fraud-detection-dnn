@@ -636,25 +636,77 @@ with tabs[3]:
 # =========================================================================
 with tabs[4]:
     st.markdown("#### ⚡ Live PyTorch Model Trainer")
+    st.markdown("Adjust hyperparameters, trigger real PyTorch backpropagation, and watch the loss curve & evaluation charts update live.")
 
     t_col1, t_col2 = st.columns(2)
     with t_col1:
-        train_epochs = st.slider("Training Epochs", 2, 20, 8)
+        train_epochs = st.slider("Training Epochs", min_value=2, max_value=20, value=8, help="Number of full passes through the training dataset.")
     with t_col2:
-        train_lr = st.select_slider("Learning Rate", options=[0.0001, 0.0005, 0.001, 0.005], value=0.001)
+        train_lr = st.select_slider("Learning Rate", options=[0.0001, 0.0005, 0.001, 0.005], value=0.001, help="AdamW optimizer step size.")
 
-    if st.button("🚀 Start Model Training (PyTorch)", use_container_width=True):
+    train_btn = st.button("🚀 Start Model Training (PyTorch)", use_container_width=True)
+    
+    # Live training execution container
+    chart_container = st.empty()
+    status_box = st.empty()
+
+    if train_btn:
         progress_bar = st.progress(0)
-        status_text = st.empty()
+        status_box.info("🚀 Initializing PyTorch training tensors and data loader...")
         
-        status_text.info("Initializing dataset and PyTorch neural network...")
-        time.sleep(1)
+        loss_tracker = {"Epoch": [], "Train Loss": [], "Validation Loss": []}
         
-        for ep in range(1, train_epochs + 1):
+        def on_epoch_update(ep, t_loss, v_loss):
             progress_bar.progress(ep / train_epochs)
-            status_text.write(f"Training Epoch {ep}/{train_epochs}... Calculating Weighted Loss...")
-            time.sleep(0.3)
+            loss_tracker["Epoch"].append(ep)
+            loss_tracker["Train Loss"].append(round(t_loss, 4))
+            loss_tracker["Validation Loss"].append(round(v_loss, 4))
             
-        train_dnn(epochs=train_epochs, lr=train_lr)
-        status_text.success("🎉 Deep Neural Network successfully trained and new weights saved to `models/best_dnn_model.pth`!")
+            df_loss = pd.DataFrame(loss_tracker).set_index("Epoch")
+            chart_container.line_chart(df_loss)
+            status_box.write(f"**Epoch {ep:02d}/{train_epochs:02d}** • Train Loss: `{t_loss:.4f}` • Val Loss: `{v_loss:.4f}`")
+
+        # Run training with callback
+        metrics_res = train_dnn(epochs=train_epochs, lr=train_lr, epoch_callback=on_epoch_update)
         st.cache_resource.clear()
+
+        status_box.success(f"🎉 **Training Complete!** 4-Layer PyTorch DNN successfully trained for {train_epochs} epochs. Saved to `models/best_dnn_model.pth`.")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("##### 🏆 Newly Generated Model Metrics")
+        
+        m_c1, m_c2, m_c3, m_c4 = st.columns(4)
+        with m_c1:
+            st.metric("Test ROC-AUC", f"{metrics_res['roc_auc']:.4f}")
+        with m_c2:
+            st.metric("Test PR-AUC", f"{metrics_res['pr_auc']:.4f}")
+        with m_c3:
+            st.metric("Fraud Recall", f"{metrics_res['classification_report']['Fraud']['recall']:.1%}")
+        with m_c4:
+            st.metric("Legit Precision", f"{metrics_res['classification_report']['Legitimate']['precision']:.1%}")
+
+    st.markdown("---")
+    st.markdown("##### 📈 Active Model Evaluation Charts & Graphs")
+    st.caption("These graphs represent the trained model checkpoints currently serving live predictions.")
+
+    c_g1, c_g2 = st.columns(2)
+    with c_g1:
+        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown("**1. Loss Reduction Across Epochs**")
+        if os.path.exists("reports/figures/training_history.png"):
+            st.image("reports/figures/training_history.png", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with c_g2:
+        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown("**2. Confusion Matrix Heatmap**")
+        if os.path.exists("reports/figures/confusion_matrix.png"):
+            st.image("reports/figures/confusion_matrix.png", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="content-box">', unsafe_allow_html=True)
+    st.markdown("**3. Precision-Recall & ROC Discrimination Curves**")
+    if os.path.exists("reports/figures/roc_pr_curves.png"):
+        st.image("reports/figures/roc_pr_curves.png", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+

@@ -23,7 +23,7 @@ from src.data_loader import load_and_preprocess_data
 from src.models import FraudDNN, FraudAutoencoder
 from src.utils import evaluate_predictions, plot_confusion_matrix, plot_roc_pr_curves, plot_training_history
 
-def train_dnn(epochs=15, batch_size=256, lr=1e-3, data_path="data/creditcard.csv", save_dir="models"):
+def train_dnn(epochs=15, batch_size=256, lr=1e-3, data_path="data/creditcard.csv", save_dir="models", epoch_callback=None):
     os.makedirs(save_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"\n=======================================================")
@@ -91,6 +91,9 @@ def train_dnn(epochs=15, batch_size=256, lr=1e-3, data_path="data/creditcard.csv
         
         print(f"Epoch [{epoch:02d}/{epochs:02d}] | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
         
+        if epoch_callback is not None:
+            epoch_callback(epoch, avg_train_loss, avg_val_loss)
+        
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             torch.save(model.state_dict(), best_model_path)
@@ -121,6 +124,8 @@ def train_dnn(epochs=15, batch_size=256, lr=1e-3, data_path="data/creditcard.csv
     plot_confusion_matrix(metrics['confusion_matrix'])
     plot_roc_pr_curves(y_test, probs)
     
+    metrics['train_losses'] = train_losses
+    metrics['val_losses'] = val_losses
     return metrics
 
 
