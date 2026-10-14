@@ -26,6 +26,9 @@ data/*.zip
 .idea/
 *.swp
 
+# Private prompt file (do not push to GitHub)
+CHATGPT_KNOWLEDGE_PROMPT.md
+
 # OS generated
 .DS_Store
 Thumbs.db
