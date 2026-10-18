@@ -184,36 +184,43 @@ def synthesize_transaction_vector(amount, hour_of_day, category, location, devic
     if hour_of_day in [1, 2, 3, 4]:
         risk_factors += 1.5
     if category in ["Crypto Exchange", "High-End Jewelry", "Luxury Electronics", "Offshore Wire"]:
-        risk_factors += 2.0
+        risk_factors += 1.8
     elif category in ["Fast Food", "Grocery Store", "Local Pharmacy"]:
         risk_factors -= 0.5
         
     if location == "Foreign High-Risk Country":
         risk_factors += 2.5
+    elif location == "Home City (Domestic)":
+        risk_factors -= 1.5
+        
     if distance_jump:
         risk_factors += 2.0
         
     if device in ["Unrecognized Tor/VPN IP", "Emulated Mobile Device"]:
         risk_factors += 2.2
+    elif device in ["Trusted Mobile (iPhone/Android)", "Trusted Home Computer"]:
+        risk_factors -= 1.5
         
     if amount > 2500:
-        risk_factors += 1.8
+        risk_factors += 1.2
     elif amount < 20:
         risk_factors -= 0.5
 
     np.random.seed(int(amount * 10 + hour_of_day * 100) % 10000)
     v = np.random.normal(loc=0.0, scale=0.8, size=28)
     
-    if risk_factors > 2.5:
+    if risk_factors > 2.0:
         severity = min(risk_factors / 3.0, 3.5)
-        v[13] -= (2.0 + severity * 1.0) # V14
+        v[13] -= (2.0 + severity * 1.0) # V14 (strong fraud indicator)
         v[3] += (1.5 + severity * 0.9)  # V4
         v[10] += (1.2 + severity * 0.8) # V11
         v[11] -= (1.8 + severity * 0.9) # V12
         v[9] -= (1.0 + severity * 0.5)  # V10
     else:
-        v[13] += np.random.uniform(0.1, 0.4)
-        v[3] -= np.random.uniform(0.1, 0.3)
+        v[13] += 1.0
+        v[11] += 0.8
+        v[3] -= 0.8
+        v[10] -= 0.8
         
     payload = {'Time': time_sec, 'Amount': float(amount)}
     for i in range(1, 29):

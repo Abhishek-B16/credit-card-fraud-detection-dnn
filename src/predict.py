@@ -47,7 +47,8 @@ class FraudPredictor:
 
         # Preprocessing & scaling
         df['scaled_time'] = self.scaler_time.transform(df[['Time']])
-        df['scaled_amount'] = self.scaler_amount.transform(df[['Amount']])
+        # Clip extreme outlier amount to prevent single-feature dominance over PCA vectors
+        df['scaled_amount'] = np.clip(self.scaler_amount.transform(df[['Amount']]), -3.0, 5.0)
         
         X = df[self.feature_names].values
         tensor_x = torch.tensor(X, dtype=torch.float32).to(self.device)
