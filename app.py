@@ -470,29 +470,89 @@ with tabs[0]:
 # =========================================================================
 with tabs[1]:
     st.markdown("#### 📡 Real-Time Bank Operations Stream")
-    
+
+    if "stream_processed" not in st.session_state:
+        st.session_state.stream_processed = 3124
+    if "stream_frauds" not in st.session_state:
+        st.session_state.stream_frauds = 5
+    if "stream_saved" not in st.session_state:
+        st.session_state.stream_saved = 23100.00
+    if "stream_history" not in st.session_state:
+        st.session_state.stream_history = []
+
+    names = ["John D.", "Emma W.", "Michael B.", "Sophia C.", "David K.", "Olivia M.", "Lucas R.", "Aria S.", "Liam T.", "Noah P.", "Zoe K.", "Ethan R."]
+    merchants = ["Amazon US", "Uber Ride", "Netflix", "Tokyo Duty-Free", "Shell Gas", "Binance P2P", "Starbucks", "Rolex Zurich", "Apple Store", "Steam Games", "Nike Store", "Delta Airlines"]
+
+    def generate_live_batch(num_tx=12):
+        new_batch = []
+        new_frauds = 0
+        new_saved = 0.0
+        
+        for i in range(num_tx):
+            name = random.choice(names)
+            merchant = random.choice(merchants)
+            is_fraudulent_scenario = (merchant in ["Rolex Zurich", "Binance P2P", "Tokyo Duty-Free"] and random.random() > 0.4)
+            
+            amount = round(random.uniform(1500, 4800), 2) if is_fraudulent_scenario else round(random.uniform(5, 120), 2)
+            hour = random.choice([2, 3]) if is_fraudulent_scenario else random.choice([10, 14, 18, 20])
+            category = "Crypto Exchange" if "Binance" in merchant else ("High-End Jewelry" if "Rolex" in merchant else "General")
+            location = "Foreign High-Risk Country" if is_fraudulent_scenario else "Home City (Domestic)"
+            device = "Unrecognized Tor/VPN IP" if is_fraudulent_scenario else "Trusted Mobile (iPhone/Android)"
+            
+            vec, _ = synthesize_transaction_vector(amount, hour, category, location, device, is_fraudulent_scenario)
+            res = engine.predict(vec, threshold=threshold)
+            
+            if res['is_fraud']:
+                new_frauds += 1
+                new_saved += amount
+                
+            time_str = (datetime.now() - timedelta(seconds=i * 12)).strftime("%H:%M:%S")
+            card_num = f"•••• {random.randint(1000, 9999)}"
+            
+            new_batch.append({
+                "Timestamp": time_str,
+                "Cardholder": name,
+                "Card Number": card_num,
+                "Merchant": merchant,
+                "Amount ($)": f"${amount:,.2f}",
+                "Risk Score": f"{res['fraud_probability']:.1%}",
+                "AI Action": "🚨 BLOCKED" if res['is_fraud'] else "✅ APPROVED",
+                "Verdict": "FRAUD DETECTED" if res['is_fraud'] else "LEGITIMATE"
+            })
+            
+        st.session_state.stream_processed += num_tx
+        st.session_state.stream_frauds += new_frauds
+        st.session_state.stream_saved += new_saved
+        return new_batch
+
+    # Populate initial history if empty
+    if not st.session_state.stream_history:
+        st.session_state.stream_history = generate_live_batch(12)
+
+    flag_rate = (st.session_state.stream_frauds / max(st.session_state.stream_processed, 1)) * 100
+
     stream_col1, stream_col2, stream_col3, stream_col4 = st.columns(4)
     with stream_col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-title">Transactions Processed</div>
-            <div class="kpi-value">3,124</div>
+            <div class="kpi-value">{st.session_state.stream_processed:,}</div>
             <div class="kpi-sub">↑ Live Stream Active</div>
         </div>
         """, unsafe_allow_html=True)
     with stream_col2:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-title">Frauds Intercepted</div>
-            <div class="kpi-value" style="color: #F87171;">5</div>
-            <div class="kpi-sub" style="color: #F87171;">0.16% Flag Rate</div>
+            <div class="kpi-value" style="color: #F87171;">{st.session_state.stream_frauds}</div>
+            <div class="kpi-sub" style="color: #F87171;">{flag_rate:.2f}% Flag Rate</div>
         </div>
         """, unsafe_allow_html=True)
     with stream_col3:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-title">Total Money Saved</div>
-            <div class="kpi-value" style="color: #22C55E;">$23,100.00</div>
+            <div class="kpi-value" style="color: #22C55E;">${st.session_state.stream_saved:,.2f}</div>
             <div class="kpi-sub">Prevented Loss</div>
         </div>
         """, unsafe_allow_html=True)
@@ -506,41 +566,14 @@ with tabs[1]:
         """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    names = ["John D.", "Emma W.", "Michael B.", "Sophia C.", "David K.", "Olivia M.", "Lucas R.", "Aria S."]
-    merchants = ["Amazon US", "Uber Ride", "Netflix", "Tokyo Duty-Free", "Shell Gas", "Binance P2P", "Starbucks", "Rolex Zurich", "Apple Store", "Steam Games"]
-    
-    feed_data = []
-    np.random.seed(42)
-    for i in range(12):
-        name = random.choice(names)
-        merchant = random.choice(merchants)
-        is_fraudulent_scenario = (merchant in ["Rolex Zurich", "Binance P2P"] and random.random() > 0.3)
-        
-        amount = round(random.uniform(1500, 4800), 2) if is_fraudulent_scenario else round(random.uniform(5, 120), 2)
-        hour = random.choice([2, 3]) if is_fraudulent_scenario else random.choice([10, 14, 18, 20])
-        category = "Crypto Exchange" if "Binance" in merchant else ("High-End Jewelry" if "Rolex" in merchant else "General")
-        location = "Foreign High-Risk Country" if is_fraudulent_scenario else "Home City (Domestic)"
-        device = "Unrecognized Tor/VPN IP" if is_fraudulent_scenario else "Trusted Mobile (iPhone/Android)"
-        
-        vec, _ = synthesize_transaction_vector(amount, hour, category, location, device, is_fraudulent_scenario)
-        res = engine.predict(vec, threshold=threshold)
-        
-        time_str = (datetime.now() - timedelta(seconds=i * 14)).strftime("%H:%M:%S")
-        card_num = f"•••• {random.randint(1000, 9999)}"
-        
-        feed_data.append({
-            "Timestamp": time_str,
-            "Cardholder": name,
-            "Card Number": card_num,
-            "Merchant": merchant,
-            "Amount ($)": f"${amount:,.2f}",
-            "Risk Score": f"{res['fraud_probability']:.1%}",
-            "AI Action": "🚨 BLOCKED" if res['is_fraud'] else "✅ APPROVED",
-            "Verdict": "FRAUD DETECTED" if res['is_fraud'] else "LEGITIMATE"
-        })
 
-    feed_df = pd.DataFrame(feed_data)
+    btn_c1, btn_c2 = st.columns([1.2, 2.8])
+    with btn_c1:
+        if st.button("⚡ Stream Next Live Transactions Batch", use_container_width=True):
+            st.session_state.stream_history = generate_live_batch(12)
+            st.rerun()
+
+    feed_df = pd.DataFrame(st.session_state.stream_history)
     st.dataframe(feed_df, use_container_width=True, hide_index=True)
 
 
